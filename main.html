@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Window - Student Violation Record Tracking System</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file for styling -->
+</head>
+<body>
+
+    <header>
+        <h1>Student Violation Record Tracking System</h1>
+    </header>
+
+    <div class="main-container">
+        <h2>Welcome to Student Violation Record Tracking System</h2>
+        
+        <div class="options">
+            <div class="option-container" onclick="goToCreateReport()">
+                <h3>Create a Report</h3>
+            </div>
+            <div class="option-container" onclick="goToViolationRecord()">
+                <h3>Violation Record</h3>
+            </div>
+            <!-- Add more options as needed -->
+        </div>
+
+        <!-- Content Container for Create a Report -->
+        <div id="createReportContainer" class="content-container">
+            <!-- Add content specific to Create a Report page -->
+            <p>This is the Create a Report page content.</p>
+        </div>
+
+        <!-- Content Container for Violation Record -->
+        <div id="violationRecordContainer" class="content-container">
+            <!-- Add content specific to Violation Record page -->
+            <p>This is the Violation Record page content.</p>
+        </div>
+        
+        <!-- Additional content for the main window -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

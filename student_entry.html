@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        /* Reset some default styles */
+        body, h1, h2, p, ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Basic styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 220px;
+            background-color: #083eaa;
+            transition: all 0.5s ease;
+            z-index: 1;
+            overflow: hidden; /* Remove the scrollbar */
+            padding-top: 20px;
+            border-radius: 0 10px 10px 0; /* Rounded corners on the right side */
+        }
+
+        .logo-details {
+            display: flex;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .logo-details i {
+            margin-right: 10px;
+            color: #eee;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #eee;
+            text-decoration: none;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #487ce6;
+        }
+
+        .nav-links .active {
+            background-color: #487ce6;
+            font-weight: bold;
+        }
+
+        .links_name {
+            margin-left: 15px;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Home section styling */
+        .home-section {
+            padding: 20px;
+            transition: all 0.5s ease;
+            background-color: #C0C0C0;
+            min-height: 100vh;
+            padding-left: 240px;
+            border-radius: 10px; /* Rounded corners for the whole section */
+        }
+
+        /* Navbar styling */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #556B2F;
+            padding: 14px 20px;
+            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.5);
+            z-index: 2;
+            border-radius: 10px 10px 10px 10px; /* Rounded corners on the bottom side */
+        }
+
+        .sidebar-button, .profile-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-button i {
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .profile-details img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .profile-details i {
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Main content styling */
+        .home-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            min-height: 100vh;
+            display: fixed;
+        }
+
+        /* Dashboard Overview Boxes styling */
+        .overview-boxes {
+            display: flex;
+            flex-wrap: wrap; /* Ensure boxes wrap on smaller screens */
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .box {
+            flex-basis: calc(33.33% - 20px); /* Adjust box width for responsiveness */
+            width: 250px; /* Set a fixed width */
+            margin-bottom: 20px; /* Add margin between boxes */
+            padding: 20px;
+            background-color: #556B2F;
+            border-radius: 10px; /* Rounded corners for the boxes */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease; /* Add transition for smooth color change */
+        }
+
+        .box:hover {
+            background-color: #222b13; /* Change background color on hover */
+        }
+
+        .box-icon {
+            width: 90px; /* Adjust icon width */
+            height: 65px; /* Adjust icon height */
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-right: 5%;
+        }
+
+        .boxes-icon {
+            width: 30px; /* Adjust icon width */
+            height: 30px; /* Adjust icon height */
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-right: none;
+        }
+
+        .box i {
+            display: none; /* Hide text icons */
+        }
+
+        /* Make the anchor tag cover the entire box */
+        .box .text {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none; /* Remove underline from the anchor */
+            color: inherit; /* Inherit text color from parent */
+        }
+
+        /* Delete button styling */
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Edit button styling */
+        .edit-btn {
+            background-color: #ffc107;
+            color: #212529;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .edit-btn:hover {
+            background-color: #e0a800;
+        }
+
+        /* Add student button styling */
+        .add-student-btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .add-student-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-details">
+            <i class='bx bxs-school bx-lg'></i>
+            <span class="logo_name" style="color: #eee;">SVRTS</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="developer_main.html">
+                    <i class='bx bx-home'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('dashboard.png');"></div>
+                        <span class="links_name">Dashboard</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="student_entry.html" class="active">
+                    <i class='bx bx-user'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('student_entry.png');"></div>
+                        <span class="links_name">Student Entry</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="violation_entry.html">
+                    <i class='bx bx-error'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('violation_entry.png');"></div>
+                        <span class="links_name">Violation Entry</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="academic_year.html" >
+                    <i class='bx bx-calendar'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('academic_year.png');"></div>
+                        <span class="links_name">Academic Year</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="students.html">
+                    <i class='bx bx-user'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('students.png');"></div>
+                        <span class="links_name">Students</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="violations.html">
+                    <i class='bx bx-error'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('violation.png');"></div>
+                        <span class="links_name">Violations</span>
+                    </span>
+                </a>
+            </li>
+            <li class="log_out">
+                <a href="index.html">
+                    <i class='bx bx-log-out'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('log_out.png');"></div>
+                        <span class="links_name">Log out</span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Home Section -->
+    <div class="home-section">
+        <!-- Navbar -->
+        <nav>
+            <div class="sidebar-button" >
+                <i class='bx bx-menu' ></i>  
+                <span class="button-container">
+                    <div class="boxes-icon" style="background-image: url('student_entry.png');"></div>
+                    <span class="links_name" style="color: white;">STUDENT ENTRY</span>
+                </span>
+            </div>
+            <div class="profile-details">
+                <img src="admin.png" alt="profileImg">
+                <span class="admin_name" style="color: white">ADMIN</span>
+                <i class='bx bx-chevron-down'></i>
+            </div>
+        </nav>
+        <div class="home-content">
+            <!-- Add Student Button -->
+            <button class="add-student-btn" id="addStudentBtn">Add Student</button>
+
+            <!-- Table for Student Information -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student number</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Course</th>
+                        <th>Actions</th> <!-- Added column for buttons -->
+                    </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                    <!-- Insert data rows here -->
+                    <tr>
+                        <td>1</td>
+                        <td>2024-123123</td>
+                        <td>Isorena</td>
+                        <td>About</td>
+                        <td>Us</td>
+                        <td>BSIT (Information Technology)</td>
+                        <td>
+                            <button class="edit-btn">Edit</button> <!-- Edit button for each row -->
+                            <button class="delete-btn">Delete</button> <!-- Delete button for each row -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2024-123123</td>
+                        <td>Javar</td>
+                        <td>Christian</td>
+                        <td>Chekombert</td>
+                        <td>BSIT (International Tambay)</td>
+                        <td>
+                            <button class="edit-btn">Edit</button> <!-- Edit button for each row -->
+                            <button class="delete-btn">Delete</button> <!-- Delete button for each row -->
+                        </td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JavaScript for button functionalities -->
+    <script>
+        // Function to handle adding a new student
+        document.getElementById("addStudentBtn").addEventListener("click", function() {
+            // Assuming you have a form or modal to add new student data
+            // You can implement the logic for adding a new student here
+            console.log("Add student functionality here");
+        });
+
+        // Function to handle deleting a student
+        document.querySelectorAll(".delete-btn").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                // Assuming you have logic to delete a student based on the row
+                // You can implement the logic for deleting a student here
+                console.log("Delete student functionality here");
+                // Remove the row from the table after deletion
+                this.closest("tr").remove();
+            });
+        });
+
+        // Function to handle editing a student
+        document.querySelectorAll(".edit-btn").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                // Assuming you have logic to edit a student based on the row
+                // You can implement the logic for editing a student here
+                console.log("Edit student functionality here");
+            });
+        });
+    </script>
+</body>
+</html>
