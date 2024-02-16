@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        /* Reset some default styles */
+        body, h1, h2, p, ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Basic styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 220px;
+            background-color: #083eaa;
+            transition: all 0.5s ease;
+            z-index: 1;
+            overflow: hidden; /* Remove the scrollbar */
+            padding-top: 20px;
+            border-radius: 0 10px 10px 0; /* Rounded corners on the right side */
+        }
+
+        .logo-details {
+            display: flex;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .logo-details i {
+            margin-right: 10px;
+            color: #eee;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #eee;
+            text-decoration: none;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #487ce6;
+        }
+
+        .nav-links .active {
+            background-color: #487ce6;
+            font-weight: bold;
+        }
+
+        .links_name {
+            margin-left: 15px;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Home section styling */
+        .home-section {
+            padding: 20px;
+            transition: all 0.5s ease;
+            background-color: #C0C0C0;
+            min-height: 100vh;
+            padding-left: 240px;
+            border-radius: 10px; /* Rounded corners for the whole section */
+        }
+
+        /* Navbar styling */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #556B2F;
+            padding: 14px 20px;
+            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.5);
+            z-index: 2;
+            border-radius: 10px 10px 10px 10px; /* Rounded corners on the bottom side */
+        }
+
+        .sidebar-button, .profile-details {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-button i {
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .profile-details img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .profile-details i {
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Main content styling */
+        .home-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            min-height: 100vh;
+            display: fixed;
+        }
+
+        /* Dashboard Overview Boxes styling */
+        .overview-boxes {
+            display: flex;
+            flex-wrap: wrap; /* Ensure boxes wrap on smaller screens */
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .box {
+            flex-basis: calc(33.33% - 20px); /* Adjust box width for responsiveness */
+            width: 250px; /* Set a fixed width */
+            margin-bottom: 20px; /* Add margin between boxes */
+            padding: 20px;
+            background-color: #556B2F;
+            border-radius: 10px; /* Rounded corners for the boxes */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease; /* Add transition for smooth color change */
+        }
+
+        .box:hover {
+            background-color: #222b13; /* Change background color on hover */
+        }
+
+        .box-icon {
+            width: 90px; /* Adjust icon width */
+            height: 65px; /* Adjust icon height */
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-right: 5%;
+        }
+
+        .boxes-icon {
+            width: 30px; /* Adjust icon width */
+            height: 30px; /* Adjust icon height */
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-right: none;
+        }
+
+        .box i {
+            display: none; /* Hide text icons */
+        }
+
+        /* Make the anchor tag cover the entire box */
+        .box .text {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none; /* Remove underline from the anchor */
+            color: inherit; /* Inherit text color from parent */
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #556B2F;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Buttons styling */
+        .edit-btn,
+        .cancel-btn {
+            background-color: #020083;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background-color: #4b5dff;
+        }
+        .add-btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .add-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Delete button styling */
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 3px 7px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Edit button styling */
+        .edit-btn {
+            background-color: #ffc107;
+            color: #212529;
+            border: none;
+            padding: 3px 7px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background-color: #e0a800;
+        }
+        .add-btn:hover {
+            background-color: #222b13;
+        }
+
+        /* Textboxes styling */
+        .textbox-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .textbox-container input[type="text"],
+        .textbox-container select {
+            width: calc(33.33% - 20px);
+            padding: 8px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        /* Search button */
+        .search-btn {
+            background-color: #556B2F;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .search-btn:hover {
+            background-color: #222b13;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-details">
+            <i class='bx bxs-school bx-lg'></i>
+            <span class="logo_name" style="color: #eee;">SVRTS</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="student_main.html">
+                    <i class='bx bx-home'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('dashboard.png');"></div>
+                        <span class="links_name">Dashboard</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="student_violation.html">
+                    <i class='bx bx-error'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('violation.png');"></div>
+                        <span class="links_name">Violations</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="student_violation_entry.html" class="active">
+                    <i class='bx bx-error'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('violation_entry.png');"></div>
+                        <span class="links_name">Violation Entry</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="student_academic_year.html" >
+                    <i class='bx bx-calendar'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('academic_year.png');"></div>
+                        <span class="links_name">Academic Year</span>
+                    </span>
+                </a>
+            </li>
+            <li class="log_out">
+                <a href="index.html">
+                    <i class='bx bx-log-out'></i>
+                    <span class="button-container">
+                        <div class="boxes-icon" style="background-image: url('log_out.png');"></div>
+                        <span class="links_name">Log out</span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Home Section -->
+    <div class="home-section">
+        <!-- Navbar -->
+        <nav>
+            <div class="sidebar-button" >
+                <i class='bx bx-menu' ></i>  
+                <span class="button-container">
+                    <div class="boxes-icon" style="background-image: url('violation_entry.png');"></div>
+                    <span class="links_name" style="color: white;">VIOLATION ENTRY</span>
+            </div>
+            <div class="profile-details">
+                <img src="admin.png" alt="profileImg">
+                <span class="admin_name" style="color: white">ADMIN</span>
+                <i class='bx bx-chevron-down'></i>
+            </div>
+        </nav>
+        <div class="home-content">
+            <!-- Textboxes for search, name, course, sanction, offense -->
+            <!-- Textboxes for search, name, course, sanction, offense -->
+            <div class="textbox-container">
+                <input type="text" placeholder="Search Student">
+                <input type="text" placeholder="Name">
+                <input type="text" placeholder="Course">
+                <input type="text" placeholder="Sanction">
+                <input type="text" placeholder="Offense">
+                <select name="offense-type">
+                    <option value="" disabled selected>TYPE OF OFFENSE</option>
+                    <option value="minor">Minor Offense</option>
+                    <option value="major">Major Offense</option>
+                </select>
+                <div>
+                    <button class="add-btn">Add Student</button>
+                    <button class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+
+
+            <!-- Table for student information -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="color: black">Student number</th>
+                        <th style="color: black">Last Name</th>
+                        <th style="color: black">First Name</th>
+                        <th style="color: black">Middle Name</th>
+                        <th style="color: black">Course</th>
+                        <th style="color: black">Sanction</th>
+                        <th style="color: black">Actions</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Insert data rows here -->
+                    <tr>
+                        <td>1</td>
+                        <td>Isorena</td>
+                        <td>About</td>
+                        <td>Us</td>
+                        <td>BSIT (Information Technology)</td>
+                        <td>143rd Offense</td>
+                        <td>Minor Offense</td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Javar</td>
+                        <td>Christian</td>
+                        <td>Chekombert</td>
+                        <td>BSIT (International Tambay)</td>
+                        <td>69th Offense</td>
+                        <td>Minor Offense</td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
