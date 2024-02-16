@@ -200,7 +200,7 @@ body {
         // Perform validation
         if (username.match(/\.student$/)) {
             // Student login
-            this.submit(); // Continue with the form submission
+             window.location.href = "student_entry.html"; // Redirect to the developer main page
         } else if (username.match(/\.dev$/)) {
             // Developer login
             window.location.href = "developer_main.html"; // Redirect to the developer main page
